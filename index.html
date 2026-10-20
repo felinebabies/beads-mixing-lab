@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="description" content="赤と緑のビーズで、ランダムな混合にも現れる偶然のむらを観察する小さな実験。通信不要で動作します。">
+<title>混ざりかたの観察室 — 赤と緑のビーズ実験</title>
+<style>
+:root{--paper:#f4f1e9;--ink:#263b36;--muted:#69756c;--line:#d9ddd2;--green:#27664f;--red:#d65a50;--bead-green:#438269;--white:#fffefa;--serif:"Yu Mincho","Hiragino Mincho ProN","Noto Serif CJK JP",serif;--sans:"Yu Gothic","Hiragino Kaku Gothic ProN",Meiryo,sans-serif}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.7}button,input{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid #b8792f;outline-offset:4px}button{color:inherit}button:disabled{cursor:default;opacity:.45}button,input{-webkit-tap-highlight-color:transparent}button{touch-action:manipulation}main{max-width:1240px;margin:auto;padding:25px 42px 42px}.masthead{display:flex;justify-content:space-between;align-items:center;padding-bottom:19px;border-bottom:1px solid var(--line);font-size:12px;letter-spacing:.14em}.brand{display:flex;align-items:center;gap:13px;font-weight:700}.brand-mark{display:flex;gap:3px;transform:rotate(-18deg)}.brand-mark i{width:11px;height:11px;border-radius:50%;background:var(--red)}.brand-mark i+ i{background:var(--bead-green)}.edition{font-size:10px;letter-spacing:.18em;color:var(--muted)}.intro{display:flex;gap:48px;align-items:flex-end;padding:35px 0 29px}.intro h1{font-family:var(--serif);font-weight:600;font-size:43px;line-height:1.5;letter-spacing:.045em;margin:0;flex:none}.intro p{max-width:455px;color:var(--muted);font-size:13px;line-height:2;margin:0 0 7px}.experiment{display:grid;grid-template-columns:minmax(0,1fr) 322px;gap:22px;align-items:start}.observation{border:1px solid #d7dcd0;border-radius:19px;background:#eeeee4;overflow:hidden;box-shadow:0 7px 22px #324a3610}.scene-top{display:flex;align-items:center;justify-content:space-between;padding:18px 23px 0;gap:10px}.section-tag{font-size:10px;letter-spacing:.18em;font-weight:bold;color:#6d786b}.state{display:flex;align-items:center;gap:7px;font-size:11px;letter-spacing:.03em;color:#49664d}.state-dot{width:6px;height:6px;border-radius:50%;background:#91a28b}.state[data-running=true] .state-dot{background:var(--green);box-shadow:0 0 0 4px #27664f14}.canvas-wrap{position:relative;background:radial-gradient(ellipse at 50% 40%,#fafbf1 0%,transparent 67%)}canvas{display:block;width:100%;aspect-ratio:700/570;touch-action:pan-y}canvas.is-zoomed{cursor:grab;touch-action:none}canvas.is-dragging{cursor:grabbing}.canvas-hint{position:absolute;bottom:10px;left:0;right:0;pointer-events:none;text-align:center;color:#75806d;font-size:10px;letter-spacing:.07em}.scene-bottom{padding:17px 23px 19px;background:#f8f8f0;border-top:1px solid #dce0d3}.zoom-line{display:flex;align-items:center;justify-content:space-between;gap:12px}.zoom-line label{font-size:11px;font-weight:700}.zoom-line output{font-variant-numeric:tabular-nums;margin-left:8px;color:var(--muted);font-weight:400}.presets{display:flex;gap:4px}.preset{border:1px solid transparent;background:transparent;font-size:11px;padding:4px 10px;border-radius:6px}.preset[aria-pressed=true]{background:#e5eadf;border-color:#d1d9c9;color:#27563f;font-weight:700}.zoom-slider{display:flex;align-items:center;gap:13px;margin-top:8px;color:#8a9484;font-size:16px}.zoom-slider input{flex:1}.zoom-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:10px;color:var(--muted);margin-top:10px}.average{display:flex;align-items:center;gap:7px}.swatch{display:inline-block;width:19px;height:12px;background:#8d6e5d;border-radius:3px;border:1px solid #00000012}.panel{background:var(--white);padding:25px 24px;border:1px solid #dedfd5;border-radius:17px}.panel h2{font-family:var(--serif);font-size:20px;letter-spacing:.06em;margin:0 0 6px}.panel-lead{font-size:11px;line-height:1.9;color:var(--muted);margin:0 0 21px}.counts{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:23px}.count{border-radius:9px;padding:10px 12px;background:#f9eeea}.count.green{background:#edf3eb}.count-head{display:flex;align-items:center;gap:6px;font-size:10px;color:#6f5a50}.count.green .count-head{color:#506b55}.dot{width:6px;height:6px;background:var(--red);border-radius:50%;display:inline-block}.green .dot{background:var(--bead-green)}.count strong{font-family:Georgia,serif;font-weight:400;font-size:28px;line-height:1.5;font-variant-numeric:tabular-nums}.count small{font-size:10px;margin-left:4px;color:var(--muted)}.control-block{margin-top:17px}.control-label{display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:700;margin-bottom:7px}.control-label output{color:var(--muted);font-weight:400;font-size:11px;font-variant-numeric:tabular-nums}input[type=range]{accent-color:var(--green);width:100%;height:22px;margin:0;cursor:pointer}.range-caps{display:flex;justify-content:space-between;color:#8a9187;font-size:10px;line-height:1.3}.count-note{font-size:10px;color:var(--muted);margin:7px 0 0}.actions{margin-top:23px;display:grid;gap:9px}.primary,.shuffle,.reset{display:flex;justify-content:center;align-items:center;gap:10px;min-height:45px;border-radius:8px;font-size:12px;font-weight:700;letter-spacing:.05em;border:1px solid #cdd6c9;transition:background .15s,transform .15s}.primary{color:white;border-color:var(--green);background:var(--green)}.primary:hover{background:#1c533e}.shuffle{background:#edf2e8;color:#315e41}.shuffle:hover{background:#e0e9d9}.reset{background:transparent;border-color:transparent;color:var(--muted);min-height:35px;font-size:11px;font-weight:400}.reset:hover{background:#f0f1e9}.button-icon{font-size:17px;line-height:1}.action-note{min-height:36px;color:#75816e;font-size:10px;line-height:1.8;margin:12px 0 0}.divider{height:1px;background:#e3e5da;margin:19px 0 15px}.adjacency{display:flex;align-items:flex-end;justify-content:space-between}.adjacency h3{font-size:11px;font-weight:400;margin:0 0 2px}.adjacency strong{font-size:25px;font-family:Georgia,serif;font-weight:400;line-height:1.2;font-variant-numeric:tabular-nums}.adjacency small{font-size:11px;margin-left:3px}.expected{font-size:10px;line-height:1.7;text-align:right;color:var(--muted)}.metric-note{font-size:10px;color:var(--muted);margin:9px 0 0;line-height:1.8}.learn{margin-top:23px;display:grid;grid-template-columns:1fr 1fr;gap:30px;padding:23px 0 20px;border-top:1px solid var(--line)}.learn article{display:flex;gap:14px}.learn .num{font-family:Georgia,serif;font-size:21px;font-style:italic;color:#99a28d;line-height:1.6}.learn h2{font-size:13px;margin:0 0 7px;font-weight:700;letter-spacing:.03em}.learn p{font-size:11px;margin:0;color:var(--muted);line-height:1.95}details{border-top:1px solid var(--line);border-bottom:1px solid var(--line);font-size:11px;color:var(--muted)}summary{padding:14px 0;cursor:pointer;user-select:none;color:#516650}details p{margin:0 0 13px;line-height:1.95}.method-grid{display:grid;grid-template-columns:1fr 1fr;gap:27px}footer{display:flex;justify-content:space-between;gap:16px;color:#8b9484;font-size:9px;letter-spacing:.08em;margin-top:21px}.sr-only{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+canvas{height:clamp(355px,39vw,500px);aspect-ratio:auto}
+@media(min-width:1450px){main{padding-top:35px}.intro{padding-top:35px;padding-bottom:29px}}
+@media(max-width:900px){main{padding:22px 25px 32px}.experiment{grid-template-columns:minmax(0,1fr) 290px;gap:15px}.panel{padding:22px 19px}.intro{gap:30px}.intro h1{font-size:34px}.intro p{font-size:12px}.scene-top{padding:16px 16px 0}.scene-bottom{padding:15px 16px}.zoom-foot{flex-wrap:wrap;gap:6px}}
+@media(max-width:700px){main{padding:18px 17px 28px}.masthead{padding-bottom:15px}.edition{font-size:8px}.intro{display:block;padding:25px 0 22px}.intro h1{font-size:33px;line-height:1.5}.intro h1 br{display:none}.intro p{margin:12px 0 0;max-width:520px;font-size:12px}.experiment{grid-template-columns:1fr;gap:17px}.scene-top{padding:16px 17px 0}.panel{padding:21px}.panel h2{font-size:19px}.panel-lead{margin-bottom:16px}.counts{margin-bottom:15px}.control-block{margin-top:15px}.learn{grid-template-columns:1fr;gap:20px;margin-top:25px;padding-top:21px}.method-grid{grid-template-columns:1fr;gap:0}.zoom-foot{font-size:9px}.canvas-hint{font-size:9px;bottom:8px}canvas{height:auto;aspect-ratio:700/570}footer{font-size:8px}.brand{font-size:11px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+@media(max-width:380px){.zoom-line{align-items:flex-start;flex-wrap:wrap}.presets{margin-left:auto}.intro h1{font-size:30px}.edition{letter-spacing:.09em}}
+</style>
+</head>
+<body>
+<main>
+ <header class="masthead"><div class="brand"><span class="brand-mark" aria-hidden="true"><i></i><i></i></span>混ざりかたの観察室</div><span class="edition">SMALL EXPERIMENT / 01</span></header>
+ <section class="intro" aria-labelledby="title"><h1 id="title">混ざっても、<br>むらは残る。</h1><p>赤と緑のビーズを、同じ数だけ瓶の中へ。<br>よく混ぜたはずなのに見つかる、小さな同色のかたまり。<br>ランダムな配置をつくって、その偶然を観察してみましょう。</p></section>
+ <div class="experiment">
+  <section class="observation" aria-label="ビーズの観察">
+   <div class="scene-top"><span class="section-tag">OBSERVATION</span><span class="state" id="state" data-running="false"><i class="state-dot" aria-hidden="true"></i><span id="stateText">左右に分けた配置</span></span></div>
+   <div class="canvas-wrap"><canvas id="beads" width="700" height="570" role="img" aria-label="瓶の中に赤600粒、緑600粒。初めは赤が左、緑が右に分かれています。">このブラウザは Canvas に対応していません。</canvas><span class="canvas-hint" id="canvasHint">はじめは、赤を左に。緑を右に。</span></div>
+   <div class="scene-bottom">
+    <div class="zoom-line"><label for="zoom">観察する距離 <output id="zoomValue" for="zoom">1.00×</output></label><div class="presets" role="group" aria-label="観察倍率"><button class="preset" data-zoom="0.4" aria-pressed="false">遠目</button><button class="preset" data-zoom="1" aria-pressed="true">全体</button><button class="preset" data-zoom="2.5" aria-pressed="false">近く</button></div></div>
+    <div class="zoom-slider"><span aria-hidden="true">−</span><input id="zoom" type="range" min="40" max="300" step="5" value="100" aria-label="観察倍率"><span aria-hidden="true">＋</span></div>
+    <div class="zoom-foot"><span>拡大中はドラッグか矢印キーで移動。</span><span class="average"><i class="swatch" aria-hidden="true"></i>表示色の RGB 平均 <span class="sr-only">参考色 #8d6e5d</span></span></div>
+   </div>
+  </section>
+  <aside class="panel" aria-labelledby="controlsTitle">
+   <h2 id="controlsTitle">混ぜて、眺める。</h2><p class="panel-lead">色の数はいつも半分ずつ。<br>シャッフルするたび、新しい偶然が生まれます。</p>
+   <div class="counts" aria-label="色ごとの粒数"><div class="count"><span class="count-head"><i class="dot" aria-hidden="true"></i>赤いビーズ</span><strong id="redCount">600</strong><small>粒</small></div><div class="count green"><span class="count-head"><i class="dot" aria-hidden="true"></i>緑のビーズ</span><strong id="greenCount">600</strong><small>粒</small></div></div>
+   <div class="control-block"><label class="control-label" for="count">粒の数 <output id="countValue" for="count">1,200 粒</output></label><input id="count" type="range" min="200" max="2400" step="200" value="1200"><div class="range-caps"><span>200</span><span>2,400</span></div><p class="count-note">粒数を変えると、左右に分けてやり直します。</p></div>
+   <div class="control-block"><label class="control-label" for="speed">混ぜる速さ <output id="speedValue" for="speed">1.0×</output></label><input id="speed" type="range" min="5" max="30" step="1" value="10"><div class="range-caps"><span>ゆっくり</span><span>はやく</span></div></div>
+   <div class="actions"><button id="toggle" class="primary" type="button"><span class="button-icon" id="playIcon" aria-hidden="true">▷</span><span id="playLabel">混ぜはじめる</span></button><button id="shuffle" class="shuffle" type="button"><span class="button-icon" aria-hidden="true">⤨</span>一様にシャッフル</button><button id="reset" class="reset" type="button"><span aria-hidden="true">↺</span>左右に分けてリセット</button></div>
+   <p id="actionNote" class="action-note" role="status" aria-live="polite">まず「混ぜはじめる」を押してみましょう。</p>
+   <div class="divider"></div>
+   <div class="adjacency"><div><h3>同色の隣接率</h3><strong id="adjacencyValue">—</strong><small>%</small></div><div class="expected">一様シャッフルの期待値<br><span id="expectedValue">49.96%</span></div></div><p class="metric-note" id="metricNote">上下左右の隣接ペアを集計。<br>この値だけで「完全混合」とは判定できません。</p>
+  </aside>
+ </div>
+ <section class="learn" aria-label="観察のヒント">
+  <article><span class="num" aria-hidden="true">01</span><div><h2>ランダムは、きれいな交互とは違う。</h2><p>同じ色が隣り合うことも、いくつか続くこともあります。ここでは塊を狙ってつくらず、偶然できた模様をそのまま表示します。毎回、大きな塊が現れるとは限りません。</p></div></article>
+  <article><span class="num" aria-hidden="true">02</span><div><h2>離れて見える色と、一粒ずつの色。</h2><p>「遠目」で縮小し、「近く」で拡大して比べてみてください。粒が見分けにくくなっても、各粒の赤と緑は変わりません。RGB 平均の色見本は、表示色の数値を平均した参考色です。</p></div></article>
+ </section>
+ <details><summary>この実験のしくみと、数字の読みかた</summary><div class="method-grid"><div><p><b>これは配置のモデルです。</b> 瓶の形に並べた固定位置の間で、色を見ずに粒を入れ替えます。「混ぜはじめる」は無作為に選んだ位置同士の交換を繰り返すアニメーションです。移動中の粒は重なることがあります。重力・衝突・摩擦・粒の付着を再現する物理シミュレーションではありません。</p><p><b>一様にシャッフル。</b> Fisher–Yates 法で全粒の位置を割り当て直し、その場で停止します。乱数はブラウザ内で生成し、色の配置や隣接率を見て結果を選び直すことはありません。偶然のむらは、実物の粒が物理的に凝集することを意味しません。</p></div><div><p><b>同色の隣接率。</b> 固定格子の上下左右で直接つながるペアのうち、両端が同じ色のペアの割合です。斜めや、空いた位置をまたぐペアは含めません。移動中は直前に確定した配置の値を表示します。</p><p><b>期待値は、有限個数で計算。</b> 総数 N、赤 R、緑 G のとき、期待値は {R(R−1) + G(G−1)} / {N(N−1)}。半分ずつなら (N−2) / {2(N−1)} です。個々の結果は期待値の上下に揺れます。期待値との近さは、配置の一様性や混合完了を保証しません。</p></div></div></details>
+ <footer><span>小さな偶然を、そのまま見る。</span><span>OFFLINE / NO EXTERNAL LIBRARIES</span></footer>
+ <p id="accessibleSummary" class="sr-only" aria-live="polite"></p>
+</main>
+<script id="mixing-core">
+"use strict";
+// No color-dependent forces, cluster detection, or rejection of shuffled layouts.
+globalThis.BeadMixingCore = (() => {
+ const randomBuffer = new Uint32Array(1024); let cursor = randomBuffer.length;
+ function randomInt(n) {
+  if (!Number.isInteger(n) || n < 1 || n > 0x100000000) throw new RangeError("Invalid random range");
+  const limit = Math.floor(0x100000000 / n) * n; let value;
+  do { if (cursor === randomBuffer.length) { crypto.getRandomValues(randomBuffer); cursor = 0; } value = randomBuffer[cursor++]; } while (value >= limit);
+  return value % n;
+ }
+ function fisherYates(values, rng = randomInt) {
+  for (let i = values.length - 1; i > 0; i--) { const j = rng(i + 1); [values[i], values[j]] = [values[j], values[i]]; }
+  return values;
+ }
+ function makeSlots(n) {
+  if (!Number.isInteger(n) || n < 200 || n > 2400 || n % 200) throw new RangeError("Particle count must be 200..2400 in steps of 200");
+  function pairsAt(s) {
+   const pairs = [];
+   for (let row = 0, y = 190; y <= 519; row++, y = 190 + row * s) {
+    const bound = y < 220 ? 130 + y - 190 : 160;
+    for (let col = 0; (col + .5) * s + s * .44 <= bound; col++) pairs.push({row, col, x:(col + .5) * s, y});
+   }
+   return pairs;
+  }
+  let low = 2, high = 45;
+  for (let i = 0; i < 44; i++) { const middle = (low + high) / 2; if (pairsAt(middle).length >= n / 2) low = middle; else high = middle; }
+  const spacing = low;
+  // Symmetric fixed geometry, independent of color. Trim only excess boundary pairs.
+  const pairs = pairsAt(spacing).sort((a,b) => (b.x * b.x + (b.y-350)**2) - (a.x * a.x + (a.y-350)**2)).slice(-n/2);
+  const slots = [];
+  for (const p of pairs) { slots.push({x:350-p.x,y:p.y,row:p.row,col:-p.col-1}); slots.push({x:350+p.x,y:p.y,row:p.row,col:p.col}); }
+  slots.sort((a,b) => a.row-b.row || a.col-b.col);
+  const lookup = new Map(slots.map((p,i) => [p.row+","+p.col,i])), edges=[];
+  slots.forEach((p,i) => { for (const [dr,dc] of [[0,1],[1,0]]) { const j=lookup.get((p.row+dr)+","+(p.col+dc)); if(j!==undefined) edges.push([i,j]); } });
+  return {slots, spacing, edges};
+ }
+ function createModel(n) {
+  const geometry=makeSlots(n), reds=[], greens=[];
+  geometry.slots.forEach((p,i)=>(p.x<350?reds:greens).push(i));
+  const order=new Array(n); reds.forEach((slot,id)=>order[slot]=id); greens.forEach((slot,id)=>order[slot]=n/2+id);
+  return {n,...geometry,order};
+ }
+ function exchangePlan(order, rng=randomInt) {
+  const slots=fisherYates(Array.from({length:order.length},(_,i)=>i),rng), next=order.slice();
+  const pairs=Math.floor(order.length*.22);
+  for(let i=0;i<pairs*2;i+=2) { const a=slots[i],b=slots[i+1]; [next[a],next[b]]=[next[b],next[a]]; }
+  return next;
+ }
+ function adjacency(model) {
+  let same=0;
+  for(const [a,b] of model.edges) if((model.order[a]<model.n/2)===(model.order[b]<model.n/2)) same++;
+  return {same,total:model.edges.length,rate:same/model.edges.length,expected:(model.n-2)/(2*(model.n-1))};
+ }
+ return Object.freeze({randomInt,fisherYates,makeSlots,createModel,exchangePlan,adjacency});
+})();
+</script>
+<script>
+"use strict";
+(() => {
+ const Core=BeadMixingCore, $=id=>document.getElementById(id), canvas=$("beads"), ctx=canvas.getContext("2d");
+ if(!ctx) { $("actionNote").textContent="Canvas に対応したブラウザで開いてください。"; return; }
+ const RED="#d65a50",GREEN="#438269", W=700,H=570;
+ const jar=new Path2D("M260 86 L260 119 Q260 142 220 160 Q180 178 180 218 L180 508 Q180 542 214 542 L486 542 Q520 542 520 508 L520 218 Q520 178 480 160 Q440 142 440 119 L440 86 Z");
+ const reducedMotion=matchMedia("(prefers-reduced-motion: reduce)");
+ let model=Core.createModel(1200),running=false,wave=null,frame=0,lastTime=null,speed=1,zoom=1,focus={x:350,y:285},drag=null,mode="initial";
+ const fmt=n=>n.toLocaleString("ja-JP");
+ function updateMetrics() {
+  const metric=Core.adjacency(model);
+  $("redCount").textContent=fmt(model.order.filter(id=>id<model.n/2).length);
+  $("greenCount").textContent=fmt(model.order.filter(id=>id>=model.n/2).length);
+  $("countValue").textContent=fmt(model.n)+" 粒";
+  $("adjacencyValue").textContent=(100*metric.rate).toFixed(1);
+  $("expectedValue").textContent=(100*metric.expected).toFixed(2)+"%";
+  $("metricNote").innerHTML=(wave?"移動中は、直前に確定した配置の値。":"上下左右の隣接ペアを集計。")+"<br>この値だけで「完全混合」とは判定できません。";
+ }
+ function updateUI(message) {
+  $("state").dataset.running=String(running);
+  $("stateText").textContent=running?"色を見ずに、位置を交換中":wave?"移動途中で一時停止":mode==="initial"?"左右に分けた配置":mode==="shuffle"?"一様シャッフルした配置":"交換後の配置";
+  $("playLabel").textContent=running?"一時停止":wave?"混ぜるのを再開":"混ぜはじめる";
+  $("playIcon").textContent=running?"Ⅱ":"▷";
+  $("toggle").setAttribute("aria-pressed",String(running));
+  $("canvasHint").textContent=zoom>1.05?"ドラッグで、気になる模様を探せます。":zoom<.7?"離れて眺めても、一粒ずつの色は同じです。":mode==="initial"&&!wave?"はじめは、赤を左に。緑を右に。":"同じ色の小さな集まりを、見つけてみましょう。";
+  if(message) { $("actionNote").textContent=message; $("accessibleSummary").textContent=message+" 赤"+fmt(model.n/2)+"粒、緑"+fmt(model.n/2)+"粒。"; }
+  canvas.setAttribute("aria-label",`瓶の中に赤${model.n/2}粒、緑${model.n/2}粒。${$("stateText").textContent}。観察倍率${zoom.toFixed(2)}倍。`);
+  updateMetrics();
+ }
+ function beginWave() {
+  const next=Core.exchangePlan(model.order), target=new Array(model.n);
+  next.forEach((id,slot)=>target[id]=slot);
+  wave={next,targets:model.order.map(id=>target[id]),elapsed:0};
+  updateMetrics();
+ }
+ function render() {
+  const rect=canvas.getBoundingClientRect(), dpr=Math.min(devicePixelRatio||1,2),pxWidth=Math.round(rect.width*dpr),pxHeight=Math.round(rect.height*dpr);
+  if(canvas.width!==pxWidth||canvas.height!==pxHeight) { canvas.width=pxWidth;canvas.height=pxHeight; }
+  ctx.setTransform(1,0,0,1,0,0);ctx.clearRect(0,0,canvas.width,canvas.height);
+  const fit=Math.min(canvas.width/W,canvas.height/H);ctx.setTransform(fit,0,0,fit,(canvas.width-W*fit)/2,(canvas.height-H*fit)/2);
+  ctx.save();ctx.translate(W/2,H/2);ctx.scale(zoom,zoom);ctx.translate(-focus.x,-focus.y);
+  // A quiet glass silhouette; all positions are fixed inside its body.
+  ctx.save();ctx.shadowColor="#47634818";ctx.shadowBlur=22;ctx.shadowOffsetY=13;ctx.fillStyle="#f5f7e997";ctx.fill(jar);ctx.restore();
+  ctx.save();ctx.clip(jar);
+  ctx.fillStyle="#f5f7e9";ctx.fillRect(178,87,344,456);
+  const t=wave&&!reducedMotion.matches?Math.min(wave.elapsed/700,1):0,eased=t*t*(3-2*t),r=model.spacing*.435;
+  for(let slot=0;slot<model.n;slot++) {
+   const id=model.order[slot],from=model.slots[slot],to=wave?model.slots[wave.targets[slot]]:from;
+   const x=from.x+(to.x-from.x)*eased,y=from.y+(to.y-from.y)*eased;
+   ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fillStyle=id<model.n/2?RED:GREEN;ctx.fill();
+   if(model.n<=800||zoom>1.8) {ctx.beginPath();ctx.arc(x-r*.25,y-r*.3,r*.25,0,Math.PI*2);ctx.fillStyle="#ffffff2b";ctx.fill();}
+  }
+  const glass=ctx.createLinearGradient(180,0,520,0);glass.addColorStop(0,"#ffffff25");glass.addColorStop(.08,"#ffffff08");glass.addColorStop(.8,"#ffffff00");glass.addColorStop(1,"#ffffff16");ctx.fillStyle=glass;ctx.fillRect(180,90,340,452);ctx.restore();
+  ctx.strokeStyle="#92a48c";ctx.lineWidth=1.6/Math.max(zoom,.65);ctx.stroke(jar);
+  ctx.beginPath();ctx.moveTo(191,237);ctx.lineTo(191,481);ctx.strokeStyle="#ffffffaa";ctx.lineWidth=3;ctx.stroke();
+  ctx.beginPath();ctx.ellipse(350,86,90,9,0,0,Math.PI*2);ctx.fillStyle="#e3e9d9";ctx.fill();ctx.strokeStyle="#92a48c";ctx.lineWidth=1.5;ctx.stroke();ctx.beginPath();ctx.ellipse(350,85,82,4.5,0,0,Math.PI*2);ctx.strokeStyle="#b9c4ae";ctx.lineWidth=.7;ctx.stroke();
+  ctx.restore();
+ }
+ function schedule() { if(!frame) frame=requestAnimationFrame(tick); }
+ function tick(now) {
+  frame=0;
+  if(running) {
+   if(!wave) beginWave();
+   const dt=lastTime===null?0:Math.min(now-lastTime,80); lastTime=now; wave.elapsed+=dt*speed;
+   if(wave.elapsed>=700) {model.order=wave.next;wave=null;mode="mixed";updateMetrics();}
+  } else lastTime=null;
+  render(); if(running) schedule();
+ }
+ function stop() {running=false;lastTime=null;if(frame){cancelAnimationFrame(frame);frame=0;}}
+ function reset() { stop();model=Core.createModel(Number($("count").value));wave=null;mode="initial";setZoom(1);updateUI("赤を左、緑を右に分けました。ここから再び混ぜられます。");render(); }
+ function setZoom(value) {
+  zoom=Math.max(.4,Math.min(3,value));$("zoom").value=Math.round(zoom*100);$("zoomValue").textContent=zoom.toFixed(2)+"×";
+  if(zoom<=1.05) focus={x:350,y:285};
+  document.querySelectorAll(".preset").forEach(button=>button.setAttribute("aria-pressed",String(Math.abs(Number(button.dataset.zoom)-zoom)<.01)));
+  canvas.classList.toggle("is-zoomed",zoom>1.05);updateUI();render();
+ }
+ $("toggle").addEventListener("click",()=>{ if(running){stop();updateUI("一時停止しました。同じ位置から再開できます。");render();}else{running=true;lastTime=null;updateUI(reducedMotion.matches?"動きを抑える設定に合わせ、配置を段階的に更新します。":"色を見ずに、無作為に選んだ位置の粒を交換しています。");schedule();} });
+ $("shuffle").addEventListener("click",()=>{stop();wave=null;model.order=Core.fisherYates(model.order.slice());mode="shuffle";updateUI("全位置に一様に割り当てました。もう一度押すと別の配置になります。");render();});
+ $("reset").addEventListener("click",reset);
+ $("count").addEventListener("input",reset);
+ $("speed").addEventListener("input",()=>{speed=Number($("speed").value)/10;$("speedValue").textContent=speed.toFixed(1)+"×";});
+ $("zoom").addEventListener("input",()=>setZoom(Number($("zoom").value)/100));
+ document.querySelectorAll(".preset").forEach(button=>button.addEventListener("click",()=>setZoom(Number(button.dataset.zoom))));
+ canvas.addEventListener("pointerdown",event=>{if(zoom<=1.05)return;drag={x:event.clientX,y:event.clientY,focus:{...focus}};canvas.setPointerCapture(event.pointerId);canvas.classList.add("is-dragging");});
+ canvas.addEventListener("pointermove",event=>{if(!drag)return;const rect=canvas.getBoundingClientRect(),scale=1/Math.min(rect.width/W,rect.height/H)/zoom;focus={x:Math.max(180,Math.min(520,drag.focus.x-(event.clientX-drag.x)*scale)),y:Math.max(170,Math.min(520,drag.focus.y-(event.clientY-drag.y)*scale))};render();});
+ const endDrag=()=>{drag=null;canvas.classList.remove("is-dragging");};canvas.addEventListener("pointerup",endDrag);canvas.addEventListener("pointercancel",endDrag);
+ // Keyboard alternative to dragging the magnified view.
+ canvas.tabIndex=0;canvas.addEventListener("keydown",event=>{const moves={ArrowLeft:[-15,0],ArrowRight:[15,0],ArrowUp:[0,-15],ArrowDown:[0,15]};if(zoom>1.05&&moves[event.key]){event.preventDefault();focus.x=Math.max(180,Math.min(520,focus.x+moves[event.key][0]));focus.y=Math.max(170,Math.min(520,focus.y+moves[event.key][1]));render();}});
+ window.addEventListener("resize",render);
+ document.addEventListener("visibilitychange",()=>{if(document.hidden&&running){stop();updateUI("画面が非表示になったため、一時停止しました。");render();}});
+ // Reduced motion preserves sampling, replacing travel with discrete updates.
+ updateUI();render();
+ // Read-only inspection for offline verification; no settings or data are stored.
+ globalThis.BeadMixingLab=Object.freeze({snapshot:()=>({n:model.n,red:model.order.filter(id=>id<model.n/2).length,green:model.order.filter(id=>id>=model.n/2).length,order:model.order.slice(),running,moving:!!wave,progress:wave?.elapsed??0,zoom,speed,focus:{...focus},mode,metric:Core.adjacency(model)})});
+})();
+</script>
+</body>
+</html>
